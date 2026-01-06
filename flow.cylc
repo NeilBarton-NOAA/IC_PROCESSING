@@ -3,7 +3,7 @@
 # cylc vip -n ICS.CPC -s 'IC_SRC="CPC"' $PWD
 {% set MAIL_ADDRESS = "neil.barton@noaa.gov" %}
 {% set DEBUG_Q = False %}
-{% set IC_SRC = IC_SRC | default("CPC") %} # Other Options are CPC, GFS 
+{% set IC_SRC = IC_SRC | default("SCOUT") %} # Other Options are CPC, GFS 
 {% set ATMRES = ATMRES | default("C192") %} 
 {% set OCNRES = OCNRES | default("mx025") %}
 
@@ -15,7 +15,7 @@
 {% set FCP = '20251231' %}
 {% set DATES = "R1/20230501T0000Z" %}
 
-{% if IC_SRC in ["SCOUT","GFS"] %}
+{% if IC_SRC in ["GFS"] %}
 {% set CHGRES_MODELS = "ATM" %}
 {% elif IC_SRC == "CPC" %}
 {% set CHGRES_MODELS = "ATM, OCN, ICE" %}
@@ -91,6 +91,7 @@ source ${SCRIPT_DIR}/modules.sh
         """
         [[[environment]]]
             DTG                 = $(cylc cycle-point --template=%Y%m%d%H)
+            IC_SRC              = {{ IC_SRC }}
             ATMRES              = {{ ATMRES }}
             OCNRES              = {{ OCNRES }}
         [[[directives]]]

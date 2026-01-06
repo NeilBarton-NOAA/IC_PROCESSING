@@ -62,7 +62,7 @@ fi
 
 ########################
 # copy increment files to directories
-orig_dir=${inc_dir}
+orig_dir=${dir_inc_atmos/mem000/mem001}
 for n in $( seq 1 ${NENS}); do
     # copy file to correct directory
     mem=$(printf "%03d" ${n})
@@ -73,7 +73,7 @@ for n in $( seq 1 ${NENS}); do
     else
         i=$(( n + 4 ))
     fi
-    inc_file=${dir_mem}/${DTG_TEXT}.fv3_perturbation.nc
+    inc_file=${dir_mem}/${DTG_TEXT_DES}.fv3_perturbation.nc
     if [[ ${ATMRES} == "C96" ]]; then
         hpss_file=${inc_dir}/${EY}${dtg:3:3}01/${ATMRES}_era5anl_mem${mem}_${EY}${dtg:3:3}01.nc 
     else
@@ -86,7 +86,6 @@ for n in $( seq 1 ${NENS}); do
         exit 1
     fi
 done
-
 rm -r ${inc_dir}
 echo 'ATM IC PERTURBATION FILES DOWNLOADED AND PUT INTO MEM DIRECTORIES'
 exit 0

@@ -9,6 +9,7 @@ run=${run:-sfs}
 GLOBUS=F
 dtg_minus6=$(date -u -d"${dtg:0:4}-${dtg:4:2}-${dtg:6:2} ${dtg:8:2}:00:00 6 hours ago" +%Y%m%d%H)
 dtg_minus3=$(date -u -d"${dtg:0:4}-${dtg:4:2}-${dtg:6:2} ${dtg:8:2}:00:00 3 hours ago" +%Y%m%d%H)
+dtg_plus3=$(date -u -d"${dtg:0:4}-${dtg:4:2}-${dtg:6:2} ${dtg:8:2}:00:00 3 hours" +%Y%m%d%H)
 NENS=10
 
 ############
@@ -52,7 +53,21 @@ dir_inc_ocean=${IC_DIR}/${run}.${dtg:0:8}/${dtg:8:2}/mem000/analysis/ocean
 # SFS Scout Run
 # https://noaa-reanalyses-pds.s3.amazonaws.com/index.html
 aws_path="https://noaa-reanalyses-pds.s3.amazonaws.com/analyses/scout_runs/3dvar_coupledreanl_scoutrun_v1.01"
-DTG_TEXT=${dtg_minus3:0:8}.${dtg_minus3:8:10}0000 
+DTG_TEXT_SRC=${dtg_plus3:0:8}.${dtg_plus3:8:10}0000 
+DTG_TEXT_DES=${dtg:0:8}.${dtg:8:10}0000 
+
+############
+# GFS Retro Run
+#   Aug 30 2022 to Oct 10 2022
+#   Mar  1 2024 to Nov 30 2025
+#   Nov 20 2025 to Feb 28 2026 (near real time run)
+#   ICs may be on Mondays
+hpss_path=/5year/NCEPDEV/emc-global/emc.glopara/*/GFSv17/retrov17*
+
+############
+# CPC ICs
+hpss_core_path=/Permanent/NCEPDEV/cpc-om/Wesley.Ebisuzaki/core/nemsio/ens_00Z
+glore_path=onc5 #(uce scp command)
 
 ########################
 # compiler used for chgres

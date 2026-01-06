@@ -29,14 +29,14 @@ fi
 
 ########################
 # copy increment files to directories
-orig_dir=${inc_dir}
+orig_dir=${dir_inc_ocean/mem000/mem001}
 for n in $( seq 1 ${LN} ); do
     # copy file to correct directory
     mem=$(printf "%03d" ${n})
     dir_mem=${orig_dir/mem001/mem${mem}}
     mkdir -p ${dir_mem}
     pert_file=${inc_dir}/??????????/mem${mem}_pert.nc
-    inc_file=${dir_mem}/${DTG_TEXT}.mom6_perturbation.nc
+    inc_file=${dir_mem}/${DTG_TEXT_DES}.mom6_perturbation.nc
     mv ${pert_file} ${inc_file}
     if (( ${?} > 0 )); then
         echo 'ERROR in copying perturbation'
@@ -44,12 +44,12 @@ for n in $( seq 1 ${LN} ); do
         exit 1
     fi
 done
-
+exit 1
 if [[ ${LN} == 4 ]]; then
     dir_mem=${dir_inc_ocean/mem001/mem005}
     dir_mem001=${dir_inc_ocean}
     mkdir -p ${dir_mem} && cd ${dir_mem}
-    cp ${dir_mem001}/${DTG_TEXT}.mom6_perturbation.nc .
+    cp ${dir_mem001}/${DTG_TEXT_DES}.mom6_perturbation.nc .
 fi
 rm -r ${inc_dir}
 echo 'OCN IC PERTURBATION FILES DOWLOANDED AND PUT INTO MEM DIRS'
