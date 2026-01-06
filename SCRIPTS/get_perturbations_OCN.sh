@@ -44,7 +44,7 @@ for n in $( seq 1 ${LN} ); do
         exit 1
     fi
 done
-exit 1
+
 if [[ ${LN} == 4 ]]; then
     dir_mem=${dir_inc_ocean/mem001/mem005}
     dir_mem001=${dir_inc_ocean}
