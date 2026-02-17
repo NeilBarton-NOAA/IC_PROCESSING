@@ -3,22 +3,28 @@
 # cylc vip -n ICS.CPC -s 'IC_SRC="CPC"' $PWD
 {% set MAIL_ADDRESS = "neil.barton@noaa.gov" %}
 {% set DEBUG_Q = False %}
-{% set IC_SRC = IC_SRC | default("SCOUT") %} # Other Options are CPC, GFS 
+{% set IC_SRC = IC_SRC | default("GFS", true) %} # Other Options are CPC, GFS 
 {% set ATMRES = ATMRES | default("C192") %} 
 {% set OCNRES = OCNRES | default("mx025") %}
 
 ############
 # Scout Runs
-{% set MODELS = "ATM, OCN, ICE, MED" %}
 {% set PERTURBATION_MODELS = "ATM, OCN" %}
 {% set ICP = '19790101' %}
-{% set FCP = '20251231' %}
-{% set DATES = "R1/20230501T0000Z" %}
+{% set FCP = '20281231' %}
+## set DATES = "R1/20230501T0000Z" 
 
-{% if IC_SRC in ["GFS"] %}
+{% if IC_SRC == "GFS" %}
+{% set DATES = "R1/20250501T0000Z" %}
+{% set MODELS = "gdasocean_restart, enkfgdas_restart1b_grp1, gdas_restartb" %}
 {% set CHGRES_MODELS = "ATM" %}
+{% set PERTURBATION_MODELS = "" %}
+
 {% elif IC_SRC == "CPC" %}
 {% set CHGRES_MODELS = "ATM, OCN, ICE" %}
+
+{% elif IC_SRC == "SCOUT" %}
+{% set CHGRES_MODELS = "" %}
 {% endif %}
 
 ####################################
@@ -43,8 +49,12 @@
     
 [task parameters]
     models = {{ MODELS }}
+    {% if IC_SRC in ["SCOUT", "CPC"] %}
     perturbation_models = {{ PERTURBATION_MODELS }}
+    {% endif %} 
+    {% if IC_SRC in ["GFS", "CPC"] %}
     chgres_models = {{ CHGRES_MODELS }}
+    {% endif %}
 
 [scheduling]
     initial cycle point = {{ ICP }}
@@ -58,20 +68,16 @@
             limit = 2
             members = CHGRES
         {% endif %}
-        [[[GLOBUS]]]
-            limit = 15
-            members = GET
-        [[[GLOBUS_ATM]]]
-            limit = 2
-            members = get_ATM
     [[graph]]
         {{ DATES }} = """
             GET:succeed-all                 => link_member_dirs
-            {% if IC_SRC == "SCOUT" %}
+            {% if IC_SRC in ["GFS", "CPC"] %}
                 GET:succeed-all             => CHGRES
                 CHGRES:succeed-all          => link_member_dirs
             {% endif %}
+            {% if IC_SRC in ["SCOUT", "CPC"] %}
             GET_PERTURBATIONS:succeed-all   => link_member_dirs
+            {% endif %}
             link_member_dirs                => ics_to_hpss  
                 """
 
@@ -117,9 +123,10 @@ source ${SCRIPT_DIR}/modules.sh
         inherit = GET
         script = """
         model=${CYLC_TASK_PARAM_models}
-        ${SCRIPT_DIR}/get_${model}.sh ${DTG} 
+        ${SCRIPT_DIR}/get_${IC_SRC}.sh ${DTG} ${model}
         """
 
+    {% if IC_SRC in ["SCOUT", "CPC"] %}
     [[GET_PERTURBATIONS]]
         platform = localhost
         #inherit = HPSS
@@ -130,7 +137,9 @@ source ${SCRIPT_DIR}/modules.sh
         model=${CYLC_TASK_PARAM_perturbation_models}
         ${SCRIPT_DIR}/get_perturbations_${model}.sh ${DTG} 
         """
-    
+    {% endif %}
+
+    {% if IC_SRC in ["GFS", "CPC"] %}
     [[CHGRES]]
         [[[directives]]]
             --ntasks = 6
@@ -140,7 +149,8 @@ source ${SCRIPT_DIR}/modules.sh
         model=${CYLC_TASK_PARAM_chgres_models}
         ${SCRIPT_DIR}/chgres_${model}.sh ${DTG}
         """
-    
+    {% endif %}
+
     [[link_member_dirs]]
         platform = localhost
         script = """

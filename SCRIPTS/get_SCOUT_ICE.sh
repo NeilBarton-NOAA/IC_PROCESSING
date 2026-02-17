@@ -1,13 +1,12 @@
 #!/bin/bash
 set -u
-dtg=${1}
+export dtg=${1}
 SCRIPT_DIR=$(dirname "$0")
 source ${SCRIPT_DIR}/functions.sh
 source ${SCRIPT_DIR}/defaults.sh
 dir=${dir_restart_ocean}
-mkdir -p ${dir} && cd ${dir}
 echo "DOWNLOADING MOM6 restarts to ${dir}"
-
+mkdir -p ${dir} && cd ${dir}
 aws_restart_path="${aws_path}/${dtg}/gdas.${dtg:0:8}/${dtg:8:10}/model/ocean/restart"
 aws_inc_path="${aws_path}/${dtg}/gdas.${dtg:0:8}/${dtg:8:10}/analysis/ocean"
 
