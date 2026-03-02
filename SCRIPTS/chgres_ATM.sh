@@ -10,6 +10,7 @@ DTG_TEXT=${dtg_minus3:0:8}.${dtg_minus3:8:10}0000
 compiler=${chgres_compiler}
 dir=${dir_restart_atmos}
 dir=${dir//mem000/mem${MEM}}
+dir_input_atmos=${dir_input_atmos//mem000/mem${MEM}}
 export DATA=${dir}
 cd ${DATA}
 echo ${DATA}
@@ -97,6 +98,7 @@ if (( ${?} > 0 )); then
 fi
 
 # move files
+set -x
 mkdir -p ${dir_input_atmos}
 for n in $(seq 1 6); do
     mv out.atm.tile${n}.nc ${dir_input_atmos}/gfs_data.tile${n}.nc
@@ -105,6 +107,6 @@ done
 mv gfs_ctrl.nc ${dir_input_atmos}/gfs_ctrl.nc
 
 cd ${dir}
-#rm -r CHGRES
-#rm ${DTG_TEXT}*.nc
+rm -r CHGRES
+rm ${DTG_TEXT}*.nc
 echo "chgres_ATM.sh SUCCESSFUL"

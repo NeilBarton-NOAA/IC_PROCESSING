@@ -37,7 +37,6 @@ if (( ${n_empty} >> 0 )); then
         echo "  removing:  "${f}
         rm ${f}
     done
-    #find ${dir_in} -type f -size 0 -delete
     exit 1
 fi
 }
@@ -64,6 +63,14 @@ RENAME_SFS() {
     nf="${nf//${dtg_closest:0:8}/${dtg:0:8}}"  
     if [[ ! ${nf} == *"mem"* ]]; then
         nf=$(echo "${nf}" | sed 's|\(/[0-9][0-9]/\)|\1mem000/|')
+    fi
+    if [[ ! ${nf} == *"increment.atm." ]]; then
+        # Extract the number
+        num=$(echo "${nf}" | grep -oP '(?<=\.i)\d+(?=\.nc)')
+        # Calculate new number
+        new_num=$(echo "${num} - 3" | bc)
+        # Replace in string
+        nf=$(printf "${nf/.i${num}.nc/.i%03d.nc}" "${new_num}")
     fi
     echo ${nf}
 }
@@ -129,3 +136,6 @@ GFS_RESTART_DTG() {
     done
 }
 
+GET_AWS_TILES() {
+files=${1}
+}

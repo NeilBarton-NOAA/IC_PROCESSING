@@ -12,6 +12,7 @@ PREFIX="SFS"
 f_extracted=${dir}/${dtg}_${file}_htar.log
 
 echo "DOWNLOADING GFS RESTARTS to ${dir}"
+echo "  ${f_extracted}"
 mkdir -p ${dir} && cd ${dir}
 if [[ ${DOWNLOAD:-T} == T ]]; then
     GFS_RESTART_DTG ${dtg} ${hpss_path} 
@@ -72,23 +73,25 @@ elif [[ ${file} == 'gdas_restartb' ]]; then
     #fv_core.res
     f=$(grep ${dtg_closest_minus6:0:8}.210000.fv_core.res.nc ${f_extracted} | cut -d' ' -f3 | cut -d',' -f1 | head -n 1)
     MV ${f} ${PREFIX}
-elif [[ ${file} == 'enkfgdas_restarta_grp1' ]]; then
+elif [[ ${file} == 'enkfgdas' ]]; then
+    #set -x
+    files=$( grep ensmean_increment.sfc.i ${f_extracted} | cut -d' ' -f3 | cut -d',' -f1 )
+    for f in ${files}; do
+        MV ${f} ${PREFIX}
+    done
+elif [[ ${file} == "enkfgdas_restarta_grp"* ]]; then
     members=$( grep 210000.analysis.cice_model.res ${f_extracted} | cut -d' ' -f3 | cut -d'/' -f3 )
     for mem in ${members}; do
         # cice restart
         f=$(grep cice_model ${f_extracted} | grep ${mem} | cut -d' ' -f3 | cut -d',' -f1 | head -n 1)
         MV ${f} ${PREFIX}
-        # mom6 increment
-        f=$(grep mom6_incre ${f_extracted} | grep ${mem} | cut -d' ' -f3 | cut -d',' -f1 | head -n 1)
-        MV ${f} ${PREFIX}
-        # atmos non tiles
-        files=$( grep atmos ${f_extracted} | grep ${mem} | cut -d' ' -f3 | cut -d',' -f1 )
+        # increments mom6, atm, and sfc
+        files=$(grep increment ${f_extracted} | grep -v tile | grep ${mem} | cut -d' ' -f3 | cut -d',' -f1 )
         for f in ${files}; do
             MV ${f} ${PREFIX}
         done
-        exit 1
     done
-elif [[ ${file} == 'enkfgdas_restartb_grp1' ]]; then
+elif [[ ${file} == "enkfgdas_restartb_grp"* ]]; then
     members=$( grep 210000.fv_core.res.tile1 ${f_extracted} | cut -d' ' -f3 | cut -d'/' -f3 )
     for mem in ${members}; do
         # atmos files
@@ -114,12 +117,14 @@ else
     exit 1
 fi
 
-#if [[ ${DEBUG:-F} == F ]]; then
-#    rm -r ${f%%/*}
-#else
-#    echo "NPB Check" && exit 1
-#fi
-echo "Downloaded ${file}"
+if [[ ${MV_DATA:-"T"} == "T" ]]; then
+    files=$( grep 'HTAR: x' ${f_extracted} | cut -d' ' -f3 | cut -d',' -f1 )
+    for f in ${files}; do
+        [[ -f ${f} ]] && rm ${f}
+    done
+fi
+
+echo "SUCCESSFULLY Downloaded ${file}"
 exit 0
 
 
