@@ -64,7 +64,7 @@ RENAME_SFS() {
     if [[ ! ${nf} == *"mem"* ]]; then
         nf=$(echo "${nf}" | sed 's|\(/[0-9][0-9]/\)|\1mem000/|')
     fi
-    if [[ ! ${nf} == *"increment.atm." ]]; then
+    if [[ ${nf} == *"increment.atm."* ]]; then
         # Extract the number
         num=$(echo "${nf}" | grep -oP '(?<=\.i)\d+(?=\.nc)')
         # Calculate new number
