@@ -1,6 +1,6 @@
 #!/bin/bash
 set -u
-dtg=${1:-2026062400}
+dtg=${1:-2026110100}
 dir_nrt="/lfs/h2/emc/gfstemp/emc.global/comroot/retrov17_01_realtime"
 HOME_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)
 SCRIPT_DIR=${HOME_DIR}/SCRIPTS
@@ -28,6 +28,7 @@ fi
 
 FIND_AND_COPY "${restart_tile_files_atmos} analysis.cice_model.res ${restart_files_ocean}"
 FIND_AND_COPY "increment.sfc increment.atm mom6_increment ensmean_increment.sfc recentered_increment.atm"
+
 ${HOME_DIR}/RUN_CHGRES.sh ${dtg} GFS
 ${HOME_DIR}/RUN_REGRID.sh ${dtg} GFS
 while [[ $(qstat -u "${USER}" | grep -E -c "CHGRES|REGRID") -gt 0 ]]; do
@@ -114,6 +115,7 @@ HTAR_MEMBERS() {
         ds="${ds} sfs.${dtg:0:8}/${dtg:8:2}/mem${m}/* sfs.${dtg_minus6:0:8}/${dtg_minus6:8:2}/mem${m}/*"
     done
     JOB_NAME=HTAR.SFSICS.${dtg}.${mem_l}to${mem_h}
+    WALLTIME="03:00:00"
     source ${HOME_DIR}/MACHINE/config.sh
     echo ${JOB_NAME}
     echo -e "${SUBMIT_HPSS}\ncd ${dir_sfs}\nhtar -cvf ${f} ${ds}"> submit_HTAR.sh
