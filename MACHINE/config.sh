@@ -16,11 +16,7 @@ export APRUN="srun"
 # scrath dir based in machine
 machine=$(uname -n)
 export chgres_compiler=intel
-if [[ ${machine:0:3} == hfe || ${machine} == h*[cm]* ]]; then
-    machine=hera
-    export WORK_DIR=/scratch2/NCEPDEV/stmp3/${USER}
-    CODE_DIR=${WORK_DIR}/CODE/IC_PROCESSING
-elif [[ ${machine} == hercules* ]]; then
+if [[ ${machine} == hercules* ]]; then
     machine=hercules
     export WORK_DIR=/work/noaa/marine/${USER}
     CODE_DIR=${WORK_DIR}/CODE/IC_PROCESSING
