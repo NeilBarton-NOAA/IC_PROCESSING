@@ -33,7 +33,7 @@ elif [[ ${machine} == u* ]]; then
     export chgres_compiler=intelllvm
     export WORK_DIR=/scratch4/NCEPDEV/stmp/${USER}
     CODE_DIR=${WORK_DIR}/CODE/IC_PROCESSING
-    export CICE6_ICinsertion_DATA=${CODE_DIR}/CICE6_ICinsertion_DATA
+    export CICE6_ICinsertion_DATA=/scratch4/NCEPDEV/global/Yangxing.Zheng/DATA/CICE6_ICinsertion_DATA
     SUBMIT_SUFFIX="--mem=0 --qos=batch"
     SUBMIT_HPSS_SUFFIX="--mem=100G --partition=u1-service"
 elif [[ ${machine} == *[cd]login* ]] || [[ ${machine} == nid* ]] || [[ ${machine} == *dx* ]]; then
