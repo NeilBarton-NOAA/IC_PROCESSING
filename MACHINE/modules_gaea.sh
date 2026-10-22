@@ -8,5 +8,3 @@ module use -a /sw/gaea-c6/spack-envs/base/modules/spack/Core
 module load nco
 module use -a /usw/hpss/modulefiles
 module load hsi
-module use -a /ncrc/home2/Neil.Barton/TOOLS/modulefiles
-module load conda
