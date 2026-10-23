@@ -1,10 +1,10 @@
 #!/bin/bash
-set -u
+set -ux
 # Run CHGRES for ICs
 dtg=${1:-2026030100}
 export IC_SRC=${2:-GFS}
 export DEBUG=F
-export TOPDIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &> /dev/null && pwd)
+export TOPDIR=${PWD}
 export SCRIPT_DIR=${TOPDIR}/SCRIPTS
 BACKGROUND_JOB=F
 source ${TOPDIR}/MACHINE/config.sh
@@ -13,7 +13,7 @@ source ${TOPDIR}/SCRIPTS/defaults.sh
 if [[ ${IC_SRC} == "GFS" ]]; then
     models="ATM"
     members=$( ls ${dir_restart_atmos%/mem000*}/mem*/model/atmos/restart/*fv_core.res.nc | grep -oP '(?<=mem)\d{3}')
-elif [[ ${IC_SRC} == "REPLAY" ]]; then
+elif [[ ${IC_SRC} == "REPLAY" || ${IC_SRC} == "GFS_DA" ]]; then
     models="ATM"
     members="000"
 elif [[ ${IC_SRC} == *"CPC"* ]]; then
@@ -32,7 +32,7 @@ for model in ${models}; do
             #NTASKS=24
         else
             ATMRES="C384"
-            WALLTIME="00:31:00"
+            WALLTIME="00:30:00"
             NTASKS=12
         fi
         source ${TOPDIR}/MACHINE/config.sh

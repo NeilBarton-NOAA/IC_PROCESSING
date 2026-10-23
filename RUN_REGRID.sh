@@ -1,6 +1,6 @@
 #!/bin/bash
 set -u
-# Run CHGRES for ICs
+# Run REGRID for ICs
 dtg=${1:-2026030100}
 export IC_SRC=${2:-GFS} 
 export DEBUG=F
@@ -14,7 +14,7 @@ if [[ ${IC_SRC} == "GFS" ]]; then
 fi
 for mem in ${members}; do
     ATMRES="C384"
-    JOB_NAME=REGRID.SFC.MEM${mem}.${dtg}
+    JOB_NAME=REGRID.${IC_SRC}.SFC.MEM${mem}.${dtg}
     NTASKS=12
     WALLTIME="02:00:00"
     BACKGROUND_JOB=F

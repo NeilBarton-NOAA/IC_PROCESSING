@@ -1,8 +1,6 @@
 #!/bin/bash
 set -u
-# Get ICs for GFS or CPC
-#dtg=${1:-2022030100}
-#export IC_SRC=${2:-CPC_land}
+# Link ICs for GFS_DA ICs,CPC ICs (CPC_land, CPC_landice, CPC_landice) and Replay ICs
 dtg=${1:-2022030100}
 export IC_SRC=${2:-REPLAY}
 export TOPDIR=${PWD}

@@ -1,0 +1,91 @@
+---
+# SFS runs with ensemble members 
+# Directories and filenames for modifying CICE6 restart inserting hsnow, ithkn, iconc
+# To be used with: prepare_cice6_restart_driver.py
+# The driver will call functions to generate necessary restart files
+# Input restart date and hr are read from the input restart file
+# no need to specify
+# rdate_out , rhr_out - output restart date and hour, no need to change
+#                       if those match rdate_in and rhr_in (or what is in the restart file)
+restart_time:
+  rdate_in:  20240101   # input restart date, if ~ will be derived from CICE6 flrst_in file
+  rhr_in:    0          # input restart hour
+  rdate_out: ~          # output restart date if different from input
+  rhr_out:   0          # output restart hour if different from input
+  dlt_hrice: -6         # ice rest directory naming: offset hours wrt rdate_in:rhr_in,  =0 - no offset 
+
+cice_paths:
+  pth_in: "${IC_DIR}/sfs.${rdate_ice}/${hr_ice}/mem000/model/ice/restart"
+  pth_out: "${IC_DIR}/sfs.${rdate_ice}/${hr_ice}/mem000/model/ice/restart/tmp"
+
+cice_mem_paths:
+  pth_in: '/gpfs/f6/sfs-emc/proj-shared/Dmitry.Dukhovskoy/RUNDIRS/restart_sfs_C192mx025/ice/Neil_IC/GFS/mem{enmb}'
+  pth_out: '/gpfs/f6/sfs-emc/proj-shared/Dmitry.Dukhovskoy/RUNDIRS/restart_sfs_C192mx025/ice/Neil_IC/GFSnew2/mem{enmb}'
+
+mom6_paths:
+  pth_in: '/gpfs/f6/sfs-emc/proj-shared/Dmitry.Dukhovskoy/RUNDIRS/restart_sfs_C192mx025/ocean'
+  pth_out: '/gpfs/f6/sfs-emc/proj-shared/Dmitry.Dukhovskoy/RUNDIRS/restart_sfs_C192mx025/ocean/mom6_Tfrz_test'
+  pth_grid: "/scratch3/NCEPDEV/stmp/Dmitry.Dukhovskoy/C192mx025_sfs/ocean_grids"
+  pth_ice: "/gpfs/f6/sfs-emc/proj-shared/Dmitry.Dukhovskoy/RUNDIRS/restart_sfs_C192mx025/ice/Neil_IC/CPCnew2"
+
+rest_names:
+# Input CICE6 restart file to be modified
+# Output restart file name - specify final restart filename
+# Note if flrst_out if provided is the final restart file name 
+# use ~ for empty input --> name will be constructed using input restart name and rdate_out 
+#                           and sufixes indicating what fields have been inserted
+#           e.g. flrst_in: 20250701.000000.cice_restart.nc
+#                flrst_out will be: 20250701.000000.cice_restart.hsnow.nc if only hsnow is inserted
+#
+#  optional: if flrst_out is empty provide template to be used to construct desired
+#            restart files, after iconc, ithkn, hsnow, ... changed
+#            tags will be added at the end: {flrst_tmp}.iconc_ithkn.hsnow.nc
+#            YYYYMMDD.HH is space holder to indicate where restart date / time 
+#            to put in the file name
+#            e.g. flrst_in: 20250704.030000.cice_restart.iconc_ithkn.n
+#            flrst_tmp: "cice_restart.YYYYMMDD.HH"  --> cice_restart.20250704.00.iconc_ithkn.nc
+#  Provide actual restart name with correct date or 
+#  template, then date/ hr will be replaced with provided rdate_in rhr_in either from YAML or
+#  as command-line argument (override YAML)
+#  flrst_in: "20240101.000000.cice_model.res.nc"
+  flrst_in: "YYYYMMDD.HHHHHH.cice_model.res.nc"
+  flrst_out: ~
+  flrst_tmp: "cice_restart.YYYYMMDD.HH"
+  mem:
+    flrst_in: "20231231.210000.analysis.cice_model.res.nc"
+    flrst_out: ~
+    flrst_tmp: "cice_restart.YYYYMMDD.HH"
+
+mom6_names:
+#  flmom_in: MOM6 restart file name, e.g.: 20240701.000000.MOM.res.nc
+# varnm_temp - Field temperature (3D)  name in the MOM restart file
+  flmom_in: "20250701.000000.MOM.res.nc"
+  flmom_out: ~
+  varnm_temp: "Temp"
+  flrst_ice: "cice_restart.20250701.00.iconc_ithkn.nc"
+
+grid_topo:
+  pthgrid: '${CICE6_ICinsertion_DATA}/ocean_grids'
+  pthdata: '${CICE6_ICinsertion_DATA}/data_topo'
+
+target_paths:
+# Target fields directories and filenames to use in the IC
+  ice_conc:
+    path: "${CICE6_ICinsertion_DATA}/NRT_NOAA_NSIDC_seaconc/{YR}"
+    file: "NSIDC_iconc_interp_mesh025_1080x1440_{YR}{MM:02d}_{regn}.nc"
+
+  ithkn_south:
+    path: "${CICE6_ICinsertion_DATA}/CryoSat2_antarctic_ice_snow_thkn/clim"
+    file: "CryoSat_hice_mnthclim_2011_2020_mesh025_1440x1080_south.nc"
+
+  ithkn_north:
+    path: "${CICE6_ICinsertion_DATA}/ithkn_clim_combined"
+    file: "ithkn_mnthclim_cryo_avhrr_ices_1440x1080_north.nc"
+
+  hsnow_south:
+    path: "${CICE6_ICinsertion_DATA}/snow_nasa/monthly_clim"
+    file: "SSMI_hsnow_mnthclim_1992_2007_mesh025_1440x1080_south.nc"
+
+  hsnow_north:
+    path: "${CICE6_ICinsertion_DATA}/hsnow_clim_combined"
+    file: "hsnow_mnthclim_Cryo_ICESat2_1440x1080_north.nc"
