@@ -1,7 +1,8 @@
 #!/bin/sh
 ####################################
 # Local Directoriesi and 'global' variables
-export HPC_ACCOUNT=${HPC_ACCOUNT:-"marine-cpu"}
+#export HPC_ACCOUNT=${HPC_ACCOUNT:-"marine-cpu"}
+export HPC_ACCOUNT="${COMPUTE_ACCOUNT:-${HPC_ACCOUNT:-"marine-cpu"}}"
 export TOPDIR=${SCRIPT_DIR}/../
 machine=$(uname -n)
 JOB_NAME=${JOB_NAME:-hpss}
@@ -20,12 +21,14 @@ if [[ ${machine} == hercules* ]]; then
     machine=hercules
     export WORK_DIR=/work/noaa/marine/${USER}
     CODE_DIR=${WORK_DIR}/CODE/IC_PROCESSING
-    export CICE6_ICinsertion_DATA=${CODE_DIR}/CICE6_ICinsertion_DATA
+    export CICE6_ICinsertion_DATA="/work/noaa/marine/Yangxing.Zheng/DATA/CICE6_ICinsertion_DATA"
+    export dir_land_states="/work/noaa/marine/Yangxing.Zheng/DATA/LAND-SPINUP-SFS/C192.mx025_sfs"
 elif [[ ${machine} == gaea* || ${machine} == dtn* || ${machine} == c6* ]]; then
     machine=gaea
     export WORK_DIR=/gpfs/f6/sfs-emc/scratch/${USER}
     CODE_DIR=${WORK_DIR}/CODE/IC_PROCESSING
-    export CICE6_ICinsertion_DATA=${CODE_DIR}/CICE6_ICinsertion_DATA
+    export CICE6_ICinsertion_DATA="/gpfs/f6/sfs-emc/world-shared/Yangxing.Zheng/CICE6_ICinsertion_DATA"
+    export dir_land_states="/gpfs/f6/sfs-emc/world-shared/Yangxing.Zheng/LAND-SPINUP-SFS/C192.mx025_sfs"
     SUBMIT_SUFFIX="--qos=normal --clusters=c6 --partition=batch"
     SUBMIT_HPSS_SUFFIX="--mem=100G --qos=hpss --clusters=es --partition=dtn_f5_f6 --constraint=f6"
 elif [[ ${machine} == u* ]]; then
@@ -33,14 +36,16 @@ elif [[ ${machine} == u* ]]; then
     export chgres_compiler=intelllvm
     export WORK_DIR=/scratch4/NCEPDEV/stmp/${USER}
     CODE_DIR=${WORK_DIR}/CODE/IC_PROCESSING
-    export CICE6_ICinsertion_DATA=/scratch4/NCEPDEV/global/Yangxing.Zheng/DATA/CICE6_ICinsertion_DATA
+    export CICE6_ICinsertion_DATA="/scratch4/NCEPDEV/global/Yangxing.Zheng/DATA/CICE6_ICinsertion_DATA"
+    export dir_land_states="/scratch4/NCEPDEV/global/Yangxing.Zheng/DATA/LAND-SPINUP-SFS/C192.mx025_sfs"
     SUBMIT_SUFFIX="--mem=0 --qos=batch"
     SUBMIT_HPSS_SUFFIX="--mem=100G --partition=u1-service"
 elif [[ ${machine} == *[cd]login* ]] || [[ ${machine} == nid* ]] || [[ ${machine} == *dx* ]]; then
     BATCH_SYSTEM="qsub"
     machine=wcoss2
     CODE_DIR=/lfs/h2/emc/couple/noscrub/${USER}/CODE/IC_PROCESSING
-    export CICE6_ICinsertion_DATA=${CODE_DIR}/CICE6_ICinsertion_DATA
+    export CICE6_ICinsertion_DATA="/lfs/h2/emc/ens/noscrub/yangxing.zheng/DATA/CICE6_ICinsertion_DATA"
+    export dir_land_states="/lfs/h2/emc/ens/noscrub/yangxing.zheng/DATA/LAND-SPINUP-SFS/C192.mx025_sfs"
     export WORK_DIR=/lfs/h2/emc/stmp/${USER}
     export APRUN="mpiexec"
 else
