@@ -44,8 +44,9 @@ FOR CPC ICS update with LAND SPIN-UP (CPC_land): run in the following order
 FOR CPC ICS update with LAND SPIN-UP and SNOW CLIMATOLOGY in ice ICs (CPC_landice): run in the following order
     (1) GET_ICS.sh ${DTG} CPC_landice
     (2) RUN_CHNGRES.sh ${DTG} CPC_landice
-    (3) LAND_ICE_REPLACE.sh ${DTG} CPC_landice
-    (4) LINK.sh ${DTG} CPC_landice
+    (3) LAND_REPLACE.sh ${DTG} CPC_landice
+    (4) ICE_REPLACE.sh ${DTG} CPC_landice
+    (5) LINK.sh ${DTG} CPC_landice
 
 FOR GFS ICS WITH UPDATED MARINE ICs (GFS_DA): run in the following order
     (1) GET_ICS.sh ${DTG} GFS_DA
