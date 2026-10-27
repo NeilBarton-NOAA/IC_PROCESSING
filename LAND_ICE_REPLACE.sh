@@ -13,11 +13,11 @@ PYTHON=$(which python)
 members="000"
 for mem in ${members}; do
     BACKGROUND_JOB=F
-    source ${TOPDIR}/MACHINE/config.sh
     ## Conduct both land and ice state replacement for CPC_landice
     if [[ ${IC_SRC} == "CPC_landice" ]]; then
         JOB_NAME=LAND.MEM${mem}.${dtg}
         WALLTIME="00:30:00"
+        source ${TOPDIR}/MACHINE/config.sh
         echo "${JOB_NAME}"
         if [[ ${BATCH_SYSTEM} == "sbatch" ]]; then
             ${SUBMIT} --wrap="${PYTHON} ${SCRIPT_DIR}/LAND_UPDATE/replace_land_states.py \"${dir_input_atmos}/\" ${file_land_states}" 
@@ -30,6 +30,7 @@ for mem in ${members}; do
 
         JOB_NAME=ICE.MEM${mem}.${dtg}
         WALLTIME="00:30:00"
+        source ${TOPDIR}/MACHINE/config.sh
         echo "${JOB_NAME}"
         if [[ ${BATCH_SYSTEM} == "sbatch" ]]; then
             ${SUBMIT} ${SCRIPT_DIR}/ICE_UPDATE/run_cice6_insertion.sh --rdates ${dtg:0:8}
@@ -44,6 +45,7 @@ for mem in ${members}; do
     ## Only conduct land state replacement
         JOB_NAME=LAND.MEM${mem}.${dtg}
         WALLTIME="00:30:00"
+        source ${TOPDIR}/MACHINE/config.sh
         echo "${JOB_NAME}"
         if [[ ${BATCH_SYSTEM} == "sbatch" ]]; then
             ${SUBMIT} --wrap="${PYTHON} ${SCRIPT_DIR}/LAND_UPDATE/replace_land_states.py \"${dir_input_atmos}/\" ${file_land_states}"
