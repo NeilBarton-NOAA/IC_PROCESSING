@@ -9,7 +9,6 @@ source ${TOPDIR}/MACHINE/config.sh
 source ${TOPDIR}/SCRIPTS/defaults.sh
 file_land_states="${dir_land_states}/ufs_land_restart.${dtg:0:4}-${dtg:4:2}-${dtg:6:2}_00-00-00.nc"
 PYTHON=$(which python)
-
 members="000"
 for mem in ${members}; do
     JOB_NAME=LAND.MEM${mem}.${dtg}
