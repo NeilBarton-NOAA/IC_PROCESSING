@@ -13,7 +13,7 @@ source ${TOPDIR}/SCRIPTS/defaults.sh
 if [[ ${IC_SRC} == "GFS" ]]; then
     models="ATM"
     members=$( ls ${dir_restart_atmos%/mem000*}/mem*/model/atmos/restart/*fv_core.res.nc | grep -oP '(?<=mem)\d{3}')
-elif [[ ${IC_SRC} == "REPLAY" || ${IC_SRC} == "GFS_DA" ]]; then
+elif [[ ${IC_SRC} == "REPLAY" || ${IC_SRC} == "GFS_3DVAR" ]]; then
     models="ATM"
     members="000"
 elif [[ ${IC_SRC} == *"CPC"* ]]; then

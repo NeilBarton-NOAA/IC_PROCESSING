@@ -66,7 +66,7 @@ RENAME_SFS() {
     fi
     if [[ "${nf}" == *"cice"* ]]; then
         old="${dtg_closest_minus6:0:8}.210000"
-        if [[ ${IC_SRC} == "GFS_DA" ]]; then
+        if [[ ${IC_SRC} == "GFS_3DVAR" ]]; then
             new="${dtg:0:8}.000000"
         else
             new="${dtg_minus6:0:8}.210000"
@@ -75,7 +75,7 @@ RENAME_SFS() {
     fi
         if [[ "${nf}" == *"MOM"* ]]; then
         old="${dtg_closest_minus6:0:8}.210000"
-        if [[ ${IC_SRC} == "GFS_DA" ]]; then
+        if [[ ${IC_SRC} == "GFS_3DVAR" ]]; then
             new="${dtg:0:8}.000000"
         else
             new="${dtg_minus6:0:8}.210000"

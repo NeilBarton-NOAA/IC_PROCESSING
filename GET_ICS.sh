@@ -16,14 +16,14 @@ if [[ ${IC_SRC} == "GFS" ]]; then
            enkfgdas_restarta_grp1 enkfgdas_restartb_grp1"
     # comment out below if only need 10 members
     files="${files} enkfgdas_restarta_grp2 enkfgdas_restartb_grp2 enkfgdas_restarta_grp3 enkfgdas_restartb_grp3"
-elif [[ ${IC_SRC} == "GFS_DA" ]]; then
+elif [[ ${IC_SRC} == "GFS_3DVAR" ]]; then
     files="gdasocean_restart gdasocean_analysis gdas_restarta gdas_restartb"
 elif [[ ${IC_SRC} == "REPLAY" ]] || [[ ${IC_SRC} == *"CPC"* ]]; then
     files="ATM OCN ICE"
     [[ ${ATMRES} == "C384" ]] && files="${files} MED"
 fi
 [[ ${IC_SRC} == *"CPC"* ]] && SCRIPT_TAG=CPC
-[[ ${IC_SRC} == "GFS_DA"* ]] && SCRIPT_TAG=GFS
+[[ ${IC_SRC} == "GFS_3DVAR"* ]] && SCRIPT_TAG=GFS
 ####################################
 for f in ${files}; do
     JOB_NAME=GET.${IC_SRC}.${f}.${dtg} && echo ${JOB_NAME}
@@ -40,7 +40,7 @@ done
 
 # GET REQUIRED PERTURBATIONS
 ####################################
-if [[ ${IC_SRC} == "CPC_land" || ${IC_SRC} == "CPC_landice" || ${IC_SRC} == "GFS_DA" || ${IC_SRC} == "REPLAY" ]]; then
+if [[ ${IC_SRC} == "CPC_land" || ${IC_SRC} == "CPC_landice" || ${IC_SRC} == "GFS_3DVAR" || ${IC_SRC} == "REPLAY" ]]; then
     files="ATM OCN"
     for f in ${files}; do
         JOB_NAME=GETPERTS.${IC_SRC}.${f}.${dtg} && echo ${JOB_NAME}

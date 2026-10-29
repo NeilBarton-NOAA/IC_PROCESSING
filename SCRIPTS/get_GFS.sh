@@ -18,7 +18,7 @@ f_extracted=${dir}/${dtg}_${file}_htar.log
 #   ICs may be on Mondays
 if [[ ${IC_SRC} == "GFS" ]]; then
     export hpss_path=/5year/NCEPDEV/emc-global/emc.glopara/*/GFSv17/retrov17*
-elif [[ ${IC_SRC} == "GFS_DA" ]]; then
+elif [[ ${IC_SRC} == "GFS_3DVAR" ]]; then
    if [[ "${dtg}" -ge 2024010312 ]]; then
        export hpss_path="/NCEPDEV/emc-global/5year/emc.da/WCOSS2/scratch/gfsv17-marine3dvar-reanalysis-stream2" # 2024010312 - present
    elif [[ "${dtg}" -ge 2021070212 ]] && [[ "${dtg}" -le 2022042618 ]]; then
@@ -68,7 +68,7 @@ elif [[ "${file}" == "gdasocean_analysis" ]]; then
 elif [[ "${file}" == "gdas_restarta" ]]; then
     if [[ ${IC_SRC} == "GFS" ]]; then
         sfc_files="sfcanl_data increment.sfc"
-    elif [[ ${IC_SRC} == "GFS_DA" ]]; then
+    elif [[ ${IC_SRC} == "GFS_3DVAR" ]]; then
         sfc_files="sfcanl_data"
     fi
     for f_res in ${sfc_files}; do
@@ -120,7 +120,7 @@ elif [[ "${file}" == "enkfgdas_restarta_grp"* ]]; then
 elif [[ "${file}" == "enkfgdas_restartb_grp"* ]]; then
     members=$( grep 210000.fv_core.res.tile1 ${f_extracted} | cut -d' ' -f3 | cut -d'/' -f3 )
     for mem in ${members}; do
-        if [[ ${IC_SRC} != "GFS_DA" ]]; then
+        if [[ ${IC_SRC} != "GFS_3DVAR" ]]; then
             # atmos files
             for f_res in ${restart_tile_files_atmos}; do
                 for t in {1..6}; do

@@ -1,4 +1,4 @@
-Scripts to Process GFS ICs, GFS_DA ICs CPC_land ICs, CPC_landice ICs, and Replay ICs for NOAA Seasonal Forecast System (SFS)
+Scripts to Process GFS ICs, GFS_3DVAR ICs CPC_land ICs, CPC_landice ICs, and Replay ICs for NOAA Seasonal Forecast System (SFS)
 Latest updates were made on October 2026
 
 To get the IC_PROCESSING package:
@@ -48,10 +48,10 @@ FOR CPC ICS update with LAND SPIN-UP and SNOW CLIMATOLOGY in ice ICs (CPC_landic
     (4) ICE_REPLACE.sh ${DTG} CPC_landice
     (5) LINK.sh ${DTG} CPC_landice
 
-FOR GFS ICS WITH UPDATED MARINE ICs (GFS_DA): run in the following order
-    (1) GET_ICS.sh ${DTG} GFS_DA
-    (2) RUN_CHGRES.sh ${DTG} GFS_DA
-    (3) LINK.sh ${DTG} GFS_DA
+FOR GFS ICS WITH UPDATED MARINE ICs (GFS_3DVAR): run in the following order
+    (1) GET_ICS.sh ${DTG} GFS_3DVAR
+    (2) RUN_CHGRES.sh ${DTG} GFS_3DVAR
+    (3) LINK.sh ${DTG} GFS_3DVAR
 
 FOR REPLAY ICS: run in the following order
     (1) GET_ICS.sh ${DTG} REPLAY

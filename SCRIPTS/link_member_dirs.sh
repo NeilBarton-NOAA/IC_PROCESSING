@@ -21,7 +21,7 @@ for i in $(seq 1 ${NENS}); do
 done
 }
 
-#For linking ice analysis for GFS_DA ICs
+#For linking ice analysis for GFS_3DVAR ICs
 LINK_MEMBERS2 () {
 dir=${1}
 NENS=${2}

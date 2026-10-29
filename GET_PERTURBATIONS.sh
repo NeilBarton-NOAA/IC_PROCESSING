@@ -2,7 +2,7 @@
 set -u
 # Get ICs for GFS or CPC
 dtg=${1:-2022030100}
-export IC_SRC=${2:-CPC_land} #CPC_land, CPC_landice,GFS_DA,REPLAY
+export IC_SRC=${2:-CPC_land} #CPC_land, CPC_landice,GFS_3DVAR,REPLAY
 export TOPDIR=${PWD}
 export SCRIPT_DIR=${TOPDIR}/SCRIPTS
 source ${TOPDIR}/MACHINE/config.sh

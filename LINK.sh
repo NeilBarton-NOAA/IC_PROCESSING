@@ -1,6 +1,6 @@
 #!/bin/bash
 set -ux
-# Link ICs for GFS_DA ICs,CPC ICs (CPC_land, CPC_landice, CPC_landice) and Replay ICs
+# Link ICs for GFS_3DVAR ICs,CPC ICs (CPC_land, CPC_landice, CPC_landice) and Replay ICs
 dtg=${1:-2022030100}
 export IC_SRC=${2:-REPLAY}
 export TOPDIR=${PWD}
@@ -10,7 +10,7 @@ source ${TOPDIR}/SCRIPTS/defaults.sh
 BACKGROUND_JOB=F
 JOB_NAME=LINK.${IC_SRC}.${dtg} && echo ${JOB_NAME}
 
-if [[ ${IC_SRC} == "GFS_DA" ]]; then
+if [[ ${IC_SRC} == "GFS_3DVAR" ]]; then
 # Remove unnecessary folders & files
     rm -rf ${IC_DIR}/${run}.${dtg:0:8}/${dtg:8:2}/mem000/model/atmos/restart
     rm -rf ${IC_DIR}/${run}.${dtg_minus6:0:8}/${dtg_minus6:8:2}/mem000/model/atmos
