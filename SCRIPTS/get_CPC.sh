@@ -52,7 +52,18 @@ if [[ ${model} == OCN ]] || [[ ${model} == ICE ]]; then
         echo "  globus endpoint search "NOAA RDHPCS ${machine}""
         exit 1
     fi
-    TASK_ID=$( globus transfer ${UUID_C5}:${file_in} ${UUID_DES}:${file_out} | tail -n 1 | awk '{print $3}' )
+
+    TRANSFER_OUT=$(globus transfer "${UUID_C5}:${file_in}" "${UUID_DES}:${file_out}")
+    TASK_ID=$(echo "$TRANSFER_OUT" | tail -n 1 | awk '{print $3}')
+    
+    # Safeguard: Check if TASK_ID is empty
+    if [[ -z "${TASK_ID}" ]]; then
+        echo "ERROR: Globus transfer failed to start. Output was:"
+        echo "$TRANSFER_OUT"
+        exit 1
+    fi
+    #TASK_ID=$( globus transfer ${UUID_C5}:${file_in} ${UUID_DES}:${file_out} | tail -n 1 | awk '{print $3}' )
+
     globus task wait -H --timeout 60  ${TASK_ID}
 # ATM
 else 

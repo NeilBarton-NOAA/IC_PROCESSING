@@ -66,7 +66,20 @@ RENAME_SFS() {
     fi
     if [[ "${nf}" == *"cice"* ]]; then
         old="${dtg_closest_minus6:0:8}.210000"
-        new="${dtg_minus6:0:8}.210000"
+        if [[ ${IC_SRC} == "GFS_DA" ]]; then
+            new="${dtg:0:8}.000000"
+        else
+            new="${dtg_minus6:0:8}.210000"
+        fi
+        nf="${nf//${old}/${new}}"
+    fi
+        if [[ "${nf}" == *"MOM"* ]]; then
+        old="${dtg_closest_minus6:0:8}.210000"
+        if [[ ${IC_SRC} == "GFS_DA" ]]; then
+            new="${dtg:0:8}.000000"
+        else
+            new="${dtg_minus6:0:8}.210000"
+        fi
         nf="${nf//${old}/${new}}"
     fi
     if [[ ! ${nf} == *"mem"* ]]; then
@@ -102,9 +115,10 @@ GFS_RESTART_DTG() {
     hpss_path=${2}
     local file=${3}
     local find_command=${4:-F}
-    find_file=${SCRIPT_DIR}/../logs/${file}.log
+    find_file="${SCRIPT_DIR}/../logs/${file}.log"
+    
     if [[ ! -f ${find_file} ]] || [[ ${find_command} == T ]]; then
-        hsi find ${hpss_path} -name ${file} 2>&1 | grep NCEPDEV | sort > ${find_file}
+        hsi find "${hpss_path}" -name "${file}" 2>&1 | grep NCEPDEV | sort > "${find_file}"
     fi
     files=() && dtgs=()
     while IFS= read -r f; do

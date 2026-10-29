@@ -161,6 +161,6 @@ else
     rm ${ATM_FILES_INPUT} ${SFC_FILES_INPUT}
 fi
 cd ${dir_restart_atmos}/../../
-rm -r atmos
+rm -rf atmos
 
 echo "chgres_ATM.sh SUCCESSFUL"
