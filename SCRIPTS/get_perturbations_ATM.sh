@@ -78,7 +78,7 @@ for n in $( seq 1 ${NENS} ); do
     if [[ ${ATMRES} == "C96" ]]; then
         hpss_file=${inc_dir}/${EY}${fdtg:3:3}01/${ATMRES}_era5anl_mem${mem}_${EY}${fdtg:3:3}01.nc 
     else
-        hpss_file=$( ls ${inc_dir}/C384_era5anl_???${i}_${fdtg:0:6}??03.nc )
+        hpss_file=$( ls ${inc_dir}/C384_era5anl_inc${i}_*.nc )
     fi
     echo "mv ${hpss_file} ${inc_file}"
     mv ${hpss_file} ${inc_file}

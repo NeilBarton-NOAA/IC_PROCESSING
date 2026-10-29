@@ -1,5 +1,5 @@
 #!/bin/bash
-set -u
+set -ux
 set -x
 export dtg=${1}
 file=${2} # gdasocean_restart, gdas_restartb, gdasice_restart, enkfgdas_restartb_grp1, enkfgdas_restarta_grp1
@@ -19,10 +19,8 @@ f_extracted=${dir}/${dtg}_${file}_htar.log
 if [[ ${IC_SRC} == "GFS" ]]; then
     export hpss_path=/5year/NCEPDEV/emc-global/emc.glopara/*/GFSv17/retrov17*
 elif [[ ${IC_SRC} == "GFS_DA" ]]; then
-   if [[ "${dtg}" -ge 2025091512 ]] && [[ "${dtg}" -le 2026042612 ]]; then
-       export hpss_path="/NCEPDEV/emc-global/1year/john.steffen/WCOSS2/scratch/cp4.03-parallel-hybrid" # 2025091512 -
-   elif [[ "${dtg}" -ge 2024010312 ]] && [[ "${dtg}" -le 2024080612 ]]; then
-       export hpss_path="/NCEPDEV/emc-global/5year/emc.da/WCOSS2/scratch/gfsv17-marine3dvar-reanalysis-stream2" # 2024010312 - 2024080612
+   if [[ "${dtg}" -ge 2024010312 ]]; then
+       export hpss_path="/NCEPDEV/emc-global/5year/emc.da/WCOSS2/scratch/gfsv17-marine3dvar-reanalysis-stream2" # 2024010312 - present
    elif [[ "${dtg}" -ge 2021070212 ]] && [[ "${dtg}" -le 2022042618 ]]; then
        export hpss_path="/NCEPDEV/emc-global/5year/emc.da/WCOSS2/scratch/gfsv17-marine3dvar-reanalysis" # 2021070212 - 2022042618
    fi

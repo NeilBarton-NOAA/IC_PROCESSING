@@ -115,9 +115,10 @@ GFS_RESTART_DTG() {
     hpss_path=${2}
     local file=${3}
     local find_command=${4:-F}
-    find_file=${SCRIPT_DIR}/../logs/${file}.log
+    find_file="${SCRIPT_DIR}/../logs/${file}.log"
+    
     if [[ ! -f ${find_file} ]] || [[ ${find_command} == T ]]; then
-        hsi find ${hpss_path} -name ${file} 2>&1 | grep NCEPDEV | sort > ${find_file}
+        hsi find "${hpss_path}" -name "${file}" 2>&1 | grep NCEPDEV | sort > "${find_file}"
     fi
     files=() && dtgs=()
     while IFS= read -r f; do
