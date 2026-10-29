@@ -37,15 +37,3 @@ for f in ${files}; do
     fi
     [[ ${?} > 0 ]] && echo "FATAL with SUBMIT_HPSS_GETICS" && exit 1
 done 
-
-# GET REQUIRED PERTURBATIONS
-####################################
-if [[ ${IC_SRC} == "CPC_land" || ${IC_SRC} == "CPC_landice" || ${IC_SRC} == "GFS_3DVAR" || ${IC_SRC} == "REPLAY" ]]; then
-    files="ATM OCN"
-    for f in ${files}; do
-        JOB_NAME=GETPERTS.${IC_SRC}.${f}.${dtg} && echo ${JOB_NAME}
-        source ${TOPDIR}/MACHINE/config.sh
-        ${SUBMIT_HPSS} ${SCRIPT_DIR}/get_perturbations_${f}.sh ${dtg} ${IC_SRC}
-        [[ ${?} > 0 ]] && echo "FATAL with SUBMIT_HPSS_GETPERTS" && exit 1
-    done
-fi

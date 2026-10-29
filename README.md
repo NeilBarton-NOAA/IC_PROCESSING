@@ -2,8 +2,7 @@ Scripts to Process GFS ICs, GFS_3DVAR ICs CPC_land ICs, CPC_landice ICs, and Rep
 Latest updates were made on October 2026
 
 To get the IC_PROCESSING package:
-(1) Git clone from https://github.com/YangxingZheng-NOAA/IC_PROCESSING.git or https://github.com/NeilBarton-NOAA/IC_PROCESSING.git
-(2) Run chgres_compile.sh to get UFS_UTILS
+     Run chgres_compile.sh to get UFS_UTILS
 
 #############################################################################################
 !!! SPECIAL NOTES TO GET the GLORE ICS on GaeaC5:
@@ -28,32 +27,35 @@ Option 1: Here we use Globus to get GLORE ICs, users need to login in to the Glo
 Option 2: You can manually transfer the GLORE data using scp or rsync or on-line Globus freely.
 #################################################################################################
 
-To Generate the ICs:
+To Generate the ICs: (items with the same numbers can run at the same time. the tasks are independent)
 
 FOR GFS ICS: run in the following order
     (1) GET_ICS.sh ${DTG} GFS
     (2) RUN_CHGRES.sh ${DTG} GFS
-    (3) RUN_REGRID.sh ${DTG} GFS
+    (2) RUN_REGRID.sh ${DTG} GFS
 
 FOR CPC ICS update with LAND SPIN-UP (CPC_land): run in the following order
     (1) GET_ICS.sh ${DTG} CPC_land
+    (1) GET_PERTURBATIONS ${DTG} CPC_land
     (2) RUN_CHNGRES.sh ${DTG} CPC_land
     (3) LAND_REPLACE.sh ${DTG} CPC_land
     (4) LINK.sh ${DTG} CPC_land
 
 FOR CPC ICS update with LAND SPIN-UP and SNOW CLIMATOLOGY in ice ICs (CPC_landice): run in the following order
     (1) GET_ICS.sh ${DTG} CPC_landice
+    (1) GET_PERTURBATIONS ${DTG} CPC_land
     (2) RUN_CHNGRES.sh ${DTG} CPC_landice
+    (2) ICE_REPLACE.sh ${DTG} CPC_landice
     (3) LAND_REPLACE.sh ${DTG} CPC_landice
-    (4) ICE_REPLACE.sh ${DTG} CPC_landice
-    (5) LINK.sh ${DTG} CPC_landice
+    (4) LINK.sh ${DTG} CPC_landice
 
-FOR GFS ICS WITH UPDATED MARINE ICs (GFS_3DVAR): run in the following order
+FOR GFS ICS WITH GFS 3DVAR ANALYSIS (GFS_3DVAR): run in the following order
     (1) GET_ICS.sh ${DTG} GFS_3DVAR
     (2) RUN_CHGRES.sh ${DTG} GFS_3DVAR
     (3) LINK.sh ${DTG} GFS_3DVAR
 
 FOR REPLAY ICS: run in the following order
     (1) GET_ICS.sh ${DTG} REPLAY
+    (1) GET_PERTURBATIONS ${DTG} REPLAY
     (2) RUN_CHNGRES.sh ${DTG} REPLAY
     (3) LINK.sh ${DTG} REPLAY

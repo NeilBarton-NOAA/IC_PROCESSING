@@ -1,3 +1,9 @@
 [submodule "SCRIPTS/LAND_UPDATE"]
 	path = SCRIPTS/LAND_UPDATE
 	url = git@github.com:NOAA-EMC/land-data-utils.git
+[submodule "SCRIPTS/OCN_PERTS_SCALING"]
+	path = SCRIPTS/OCN_PERTS_SCALING
+	url = git@github.com:jiandewang/Pert-recenter-and-rescale.git
+[submodule "SCRIPTS/CICE_INSERTION"]
+	path = SCRIPTS/CICE_INSERTION
+	url = git@github.com:DmitryDukhovskoy/RTOFS_utilities.git
