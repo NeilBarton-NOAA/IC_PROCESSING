@@ -27,7 +27,7 @@ cat <<EOF >> ${fyaml}
 # rdate_out , rhr_out - output restart date and hour, no need to change
 #                       if those match rdate_in and rhr_in (or what is in the restart file)
 restart_time:
-  rdate_in:  20240101   # input restart date, if ~ will be derived from CICE6 flrst_in file
+  rdate_in:  ${dtg:0:8}   # input restart date, if ~ will be derived from CICE6 flrst_in file
   rhr_in:    0          # input restart hour
   rdate_out: ~          # output restart date if different from input
   rhr_out:   0          # output restart hour if different from input
