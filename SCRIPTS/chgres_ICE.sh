@@ -68,4 +68,5 @@ fi
 rm ${dir}/${DTG_TEXT}.cice_model.res.nc
 mv ${WORKDIR}/ice.${OCNRES}.nc ${dir}/${DTG_TEXT}.cice_model.res.nc
 rm -rf ${WORKDIR}
+echo "chgres_ICE.sh SUCCESSFUL"
 exit 0

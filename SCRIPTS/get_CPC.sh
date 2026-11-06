@@ -21,11 +21,8 @@ fi
 # core data path
 if [[ "${dtg}" -le 2023123100 ]]; then
     core_path=/Permanent/NCEPDEV/cpc-om/Wesley.Ebisuzaki/core/nemsio/ens_00Z
-elif [[ "${dtg}" -ge 2024010200 ]] && [[ "${dtg}" -le 2025050100 ]]; then
-    core_path=/NCEPDEV/cpc-om/1year/Leigh.Zhang/core/flux
-elif [[ "${dtg}" -ge 202506010100 ]]; then
-    #The data, from 202507 to 202511, have been archived on HPSS at 
-    core_path=/NCEPDEV/cpc-om/Permanent/Leigh.Zhang/core/flux
+else #[[ "${dtg}" -ge 2024010200 ]]; 
+    core_path=/NCEPDEV/cpc-om/Permanent/Leigh.Zhang/core/nemsio/ens_00Z
 fi
 
 # get file names
@@ -38,7 +35,11 @@ elif [[ ${model} == ICE ]]; then
     file_out=${dir_restart_ice}/${DTG_TEXT}.cice_model.res.nc
     mkdir -p ${dir_restart_ice}
 elif [[ ${model} == ATM ]]; then
-    htar_file=${core_path}/ens_nem_${dtg:0:6}.tar
+    if [[ "${dtg}" -lt 2026040100 ]]; then
+        htar_file=${core_path}/ens_nem_${dtg:0:6}.tar
+    else
+        htar_file=${core_path}/ens_nem_${dtg}.tar
+    fi
 fi
 
 # download
@@ -78,5 +79,5 @@ else
         gunzip ${f}
     done
 fi
-
+echo "SUCCESSFULLY Downloaded ${model}"
 exit 0

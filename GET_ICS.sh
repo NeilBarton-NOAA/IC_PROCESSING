@@ -24,6 +24,7 @@ elif [[ ${IC_SRC} == "REPLAY" ]] || [[ ${IC_SRC} == *"CPC"* ]]; then
 fi
 [[ ${IC_SRC} == *"CPC"* ]] && SCRIPT_TAG=CPC
 [[ ${IC_SRC} == "GFS_3DVAR"* ]] && SCRIPT_TAG=GFS
+
 ####################################
 for f in ${files}; do
     JOB_NAME=GET.${IC_SRC}.${f}.${dtg} && echo ${JOB_NAME}

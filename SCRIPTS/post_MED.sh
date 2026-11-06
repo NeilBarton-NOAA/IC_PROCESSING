@@ -29,4 +29,4 @@ if (( $? > 0 )); then
 fi
 new_file=${dir}/DEV_MEDFILE.nc
 mv ${new_file} ${file}
-echo "mediator file updated"
+echo "SUCCESSFUL: mediator file updated"

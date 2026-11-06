@@ -7,8 +7,7 @@ export TOPDIR=${PWD}
 export SCRIPT_DIR=${TOPDIR}/SCRIPTS
 source ${TOPDIR}/MACHINE/config.sh
 source ${TOPDIR}/SCRIPTS/defaults.sh
-file_land_states="${dir_land_states}/ufs_land_restart.${dtg:0:4}-${dtg:4:2}-${dtg:6:2}_00-00-00.nc"
-PYTHON=$(which python)
+
 members="000"
 for mem in ${members}; do
     JOB_NAME=LAND.MEM${mem}.${dtg}
@@ -17,9 +16,9 @@ for mem in ${members}; do
     source ${TOPDIR}/MACHINE/config.sh
     echo "${JOB_NAME}"
     if [[ ${BATCH_SYSTEM} == "sbatch" ]]; then
-        ${SUBMIT} --wrap="${PYTHON} ${SCRIPT_DIR}/LAND_UPDATE/replace_land_states.py \"${dir_input_atmos}/\" ${file_land_states}" 
+        ${SUBMIT} ${SCRIPT_DIR}/replace_LND.sh ${dtg}
     elif [[ ${BATCH_SYSTEM} == "qsub" ]]; then
-        echo -e "${SUBMIT}\n${PYTHON} ${SCRIPT_DIR}/LAND_UPDATE/replace_land_states.py \"${dir_input_atmos}/\" ${file_land_states}" > submit_LAND_REPLACE.sh
+        echo -e "${SUBMIT}\n${SCRIPT_DIR}/replace_LND.sh ${dtg}" > submit_LAND_REPLACE.sh
         qsub submit_LAND_REPLACE.sh
         rm submit_LAND_REPLACE.sh
     fi

@@ -1,5 +1,5 @@
 #!/bin/bash
-set -ux
+set -u
 # Run CHGRES for ICs
 dtg=${1:-2026030100}
 export IC_SRC=${2:-GFS}

@@ -4,6 +4,6 @@
 [submodule "SCRIPTS/OCN_PERTS_SCALING"]
 	path = SCRIPTS/OCN_PERTS_SCALING
 	url = git@github.com:jiandewang/Pert-recenter-and-rescale.git
-[submodule "SCRIPTS/CICE_INSERTION"]
-	path = SCRIPTS/CICE_INSERTION
-	url = git@github.com:DmitryDukhovskoy/RTOFS_utilities.git
+[submodule "SCRIPTS/CICE_IC_INSERTION"]
+	path = SCRIPTS/CICE_IC_INSERTION
+	url = git@github.com:DmitryDukhovskoy/CICE6_ICinsertion.git

@@ -46,4 +46,4 @@ done
 [[ -d ${dir_restart_med} ]] && LINK_MEMBERS ${dir_restart_med} ${NENS}
 [[ -d ${dir_inc_ice} ]] && LINK_MEMBERS2 ${dir_inc_ice} ${NENS}
 
-echo "Linked ICs to member directories"
+echo "SUCCESSFUL: Linked ICs to member directories"

@@ -29,4 +29,4 @@ if [[ ${IC_SRC} == "GFS" ]]; then
      rm -r ${d}
     done
 fi
-echo "SUCCESFUL hpss_put_ICs.sh"
+echo "SUCCESSFUL hpss_put_ICs.sh"

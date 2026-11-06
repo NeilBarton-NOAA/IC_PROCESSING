@@ -76,4 +76,5 @@ rm -rf ${WORKDIR}
 if [[ ${OCNRES} == "mx100" ]]; then
     rm ${dir}/${DTG_TEXT}.MOM.res_*.nc
 fi
+echo "chgres_OCN.sh SUCCESSFUL"
 exit 0

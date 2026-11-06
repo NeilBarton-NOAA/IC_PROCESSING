@@ -34,25 +34,26 @@ FOR GFS ICS: run in the following order
     (2) RUN_CHGRES.sh ${DTG} GFS
     (2) RUN_REGRID.sh ${DTG} GFS
 
+FOR CPC ICS update with LAND SPIN-UP and SNOW CLIMATOLOGY in ice ICs (CPC_landice): run in the following order
+    (1) GET_ICS.sh ${DTG} CPC_landice
+    (1) GET_PERTURBATIONS ${DTG} CPC_land
+    (2) RUN_CHNGRES.sh ${DTG} CPC_landice
+    (3) ICE_REPLACE.sh ${DTG} CPC_landice
+    (3) LAND_REPLACE.sh ${DTG} CPC_landice
+    (4) LINK.sh ${DTG} CPC_landice
+
+FOR GFS ICS WITH GFS 3DVAR ANALYSIS (GFS_3DVAR): run in the following order
+    (1) GET_ICS.sh ${DTG} GFS_3DVAR
+    (1) GET_PERTURBATIONS ${DTG} GFS_3DVAR
+    (2) RUN_CHGRES.sh ${DTG} GFS_3DVAR
+    (3) LINK.sh ${DTG} GFS_3DVAR
+
 FOR CPC ICS update with LAND SPIN-UP (CPC_land): run in the following order
     (1) GET_ICS.sh ${DTG} CPC_land
     (1) GET_PERTURBATIONS ${DTG} CPC_land
     (2) RUN_CHNGRES.sh ${DTG} CPC_land
     (3) LAND_REPLACE.sh ${DTG} CPC_land
     (4) LINK.sh ${DTG} CPC_land
-
-FOR CPC ICS update with LAND SPIN-UP and SNOW CLIMATOLOGY in ice ICs (CPC_landice): run in the following order
-    (1) GET_ICS.sh ${DTG} CPC_landice
-    (1) GET_PERTURBATIONS ${DTG} CPC_land
-    (2) RUN_CHNGRES.sh ${DTG} CPC_landice
-    (2) ICE_REPLACE.sh ${DTG} CPC_landice
-    (3) LAND_REPLACE.sh ${DTG} CPC_landice
-    (4) LINK.sh ${DTG} CPC_landice
-
-FOR GFS ICS WITH GFS 3DVAR ANALYSIS (GFS_3DVAR): run in the following order
-    (1) GET_ICS.sh ${DTG} GFS_3DVAR
-    (2) RUN_CHGRES.sh ${DTG} GFS_3DVAR
-    (3) LINK.sh ${DTG} GFS_3DVAR
 
 FOR REPLAY ICS: run in the following order
     (1) GET_ICS.sh ${DTG} REPLAY

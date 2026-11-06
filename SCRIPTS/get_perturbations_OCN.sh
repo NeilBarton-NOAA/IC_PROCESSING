@@ -75,7 +75,6 @@ for n in $( seq 1 ${NENS} ); do
 done
 
 rm -r "${inc_dir}"
-echo 'OCN IC PERTURBATION FILES DOWLOANDED AND PUT INTO MEM DIRS'
 
 #########################################################################
 ## Download OCN perts from AWS
@@ -99,6 +98,7 @@ echo 'OCN IC PERTURBATION FILES DOWLOANDED AND PUT INTO MEM DIRS'
 #    WGET_AWS ${aws_ocn_inc_dir}/${fdtg}/${file_in} ${file_out} 
 #    [[ $? > 0 ]] && echo "FATAL in download" && exit 1
 #done
-
-#echo 'OCN IC PERTURBATION FILES DOWLOANDED AND PUT INTO MEM DIRS'
 #################################################################################
+
+echo 'SUCCESSFUL: OCN IC PERTURBATION FILES DOWNLOADED AND PUT INTO MEM DIRECTORIES'
+exit 0
