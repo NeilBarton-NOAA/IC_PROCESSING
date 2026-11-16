@@ -15,8 +15,8 @@ echo "${JOB_NAME}"
 if [[ ${BATCH_SYSTEM} == "sbatch" ]]; then
     ${SUBMIT} ${SCRIPT_DIR}/rescale_perts_OCN.sh ${dtg}
 elif [[ ${BATCH_SYSTEM} == "qsub" ]]; then
-    echo -e "${SUBMIT}\n${SCRIPT_DIR}/replace_ICE.sh ${dtg}" > submit_ICE_REPLACE.sh
-    qsub submit_ICE_REPLACE.sh
-    rm submit_ICE_REPLACE.sh
+    echo -e "${SUBMIT}\n${SCRIPT_DIR}/rescale_perts_OCN.sh ${dtg}" > submit_PERT_RESCALE.sh
+    qsub submit_PERT_RESCALE.sh
+    rm submit_PERT_RESCALE.sh
 fi
 [[ ${?} > 0 ]] && echo "FATAL with SUBMIT PERTURBATION RESCALE" && exit 1
